@@ -1,0 +1,28 @@
+const express = require('express')
+const app = express()
+
+const Accroutes = require('./routes/api/AccountRecords.js');
+const Payroutes = require('./routes/api/PaymentRecords.js');
+const Orderroutes = require('./routes/api/OrderRecords.js');
+const Specialroutes = require('./routes/api/SpecialRecords.js');
+const Comproutes = require('./routes/api/CompiledRecords.js');
+const Invroutes = require('./routes/api/InventoryRecords.js');
+
+
+app.use(express.json({ extended: false}));
+
+app.use('/AccountRecords', Accroutes);
+app.use('/PaymentRecords', Payroutes);
+app.use('/OrderRecords', Orderroutes);
+app.use('/SpecialRecords', Specialroutes);
+app.use('/CompiledRecords', Comproutes);
+app.use('/InventoryRecords', Invroutes);
+
+
+
+app.get('/',(req,res)=>{
+res.send('run api run');})
+
+const PORT = 5000;
+
+app.listen(PORT,()=>console.log(`Server is running on port ${PORT}`));
