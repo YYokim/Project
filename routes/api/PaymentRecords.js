@@ -11,7 +11,7 @@ var databaseConn = require ('../../config/database.js');
 
 router.post('/add', (req, res) => {
 // perform MySQL insert
-   sqlQuery = `INSERT INTO payment_records (Mode_of_payment, Ref_no, Date_of_payment, Payment_status) VALUES ('${req.body.Mode_of_payment}',
+   sqlQuery = `INSERT INTO payment_records (Customer_ID,Mode_of_payment, Ref_no, Date_of_payment, Payment_status) VALUES (${req.body.Customer_ID},'${req.body.Mode_of_payment}',
     '${req.body.Ref_no}', '${req.body.Date_of_payment}', '${req.body.Payment_status}')`;
 
    databaseConn.query(sqlQuery, function (error, results, fields) {

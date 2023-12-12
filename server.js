@@ -7,6 +7,7 @@ const Orderroutes = require('./routes/api/OrderRecords.js');
 const Specialroutes = require('./routes/api/SpecialRecords.js');
 const Comproutes = require('./routes/api/CompiledRecords.js');
 const Invroutes = require('./routes/api/InventoryRecords.js');
+const auth= require('./routes/api/auth.js');
 
 
 app.use(express.json({ extended: false}));
@@ -17,9 +18,9 @@ app.use('/OrderRecords', Orderroutes);
 app.use('/SpecialRecords', Specialroutes);
 app.use('/CompiledRecords', Comproutes);
 app.use('/InventoryRecords', Invroutes);
+app.use('/auth', auth);
 
-
-
+ 
 app.get('/',(req,res)=>{
 res.send('run api run');})
 
