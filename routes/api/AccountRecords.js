@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+const jwt = require('jsonwebtoken');
 var databaseConn = require ('../../config/database.js');
 
 //Routes
@@ -19,6 +20,39 @@ router.post('/add', (req, res) => {
        res.status(200).json(results);
    });
 });
+
+
+
+
+router.get('/my_account',(req,res) => {
+ 
+   const jwToken = req.cookies.jwToken;
+  
+   if (!jwToken) {
+       console.log('JWT token not found in the cookie'); // Log the error
+       return res.status(401).json({ success: false, message: "Error, JWT token not found in the cookie" });
+   }
+  
+   try {
+       console.log('Verifying JWT token'); // Log the start of the token verification
+       const decodedToken = jwt.verify(jwToken, process.env.APP_JSONWEBTOKEN_KEY);
+  
+       const decodedCustomer_ID = decodedToken.data.CustomerID;
+       const sqlQuery = `SELECT * FROM acc_records WHERE Customer_id = ?`;
+       databaseConn.query (sqlQuery, decodedCustomer_ID , function(error,results,fields){
+           if(error) {
+               console.log('Error executing SQL query', error); // Log the error
+               throw error;
+           }
+           console.log('SQL query executed successfully'); // Log the success
+           res.status(200).json(results)
+       });
+   } catch (error) {
+       console.log('Error verifying JWT token', error); // Log the error
+       return res.status(401).json({ success: false, message: "Error, invalid JWT token" });
+   }
+ });
+
 
 //SELECT
 //routes get api/account/view
